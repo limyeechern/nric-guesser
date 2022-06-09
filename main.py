@@ -103,14 +103,18 @@ def hello():
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
     if request.method == "POST":
-        nric = request.form.get("nric")
-        nric = nric.lower()
-        year = int(request.form.get("year"))
-        month = int(request.form.get("month"))
-        result = predictNric(nric, year, month)
-        result[0] = result[0].upper()
-        result[1] = result[1].upper()
-        return render_template('new.html', result=result)
+        try:
+            nric = request.form.get("nric")
+            nric = nric.lower()
+            year = int(request.form.get("year"))
+            month = int(request.form.get("month"))
+            result = predictNric(nric, year, month)
+            result[0] = result[0].upper()
+            result[1] = result[1].upper()
+            return render_template('new.html', result=result)
+        except Exception:
+            return render_template('error.html')
+
 
 
 if __name__ == '__main__':
