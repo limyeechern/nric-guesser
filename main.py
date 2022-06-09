@@ -88,17 +88,8 @@ app = Flask(__name__)
 
 
 @app.route('/', methods=['GET', 'POST'])
-def hello():
-    if request.method == "POST":
-        nric = request.form.get("nric")
-        nric = nric.lower()
-        year = int(request.form.get("year"))
-        month = int(request.form.get("month"))
-        result = predictNric(nric, year, month)
-        print(result)
-        return render_template('new.html', result=result)
-    else:
-        return render_template('index.html')
+def home():
+    return render_template('index.html')
 
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
