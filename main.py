@@ -108,7 +108,8 @@ def predict():
         year = int(request.form.get("year"))
         month = int(request.form.get("month"))
         result = predictNric(nric, year, month)
-        print(result)
+        result[0] = result[0].upper()
+        result[1] = result[1].upper()
         return render_template('new.html', result=result)
 
 
