@@ -1,6 +1,6 @@
 # nric-guesser
 
-# Code
+## Code
 There is an almost complete explanation of the entire algorithm under main.py. If you are interested you can go and read and if I am wrong anywhere please feel free to chat with me so I can amend the mistakes.
 
 ## Hosting
