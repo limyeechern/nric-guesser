@@ -1,3 +1,5 @@
+Code
+
 from flask import Flask, render_template, request
 
 import numpy as np
@@ -89,7 +91,7 @@ def predictNric(nric, year, month):
     totalBirths = yearDict[year]
     for i in range(2):
         # Refer to comments below to understand the function getBestPrediction
-        bestPred = getBestPrediction(answer, totalBirths, month)
+        bestPred = getBestPrediction(answer, totalBirths, month, nric[:3])
         copyNric = fullNric.copy()
         copyNric[3] = bestPred[0]
         copyNric[4] = bestPred[1]
@@ -98,21 +100,18 @@ def predictNric(nric, year, month):
     return display
 
 
-def getBestPrediction(answer, totalBirths, month):
-    test = [int(i) for i in answer]
+def getBestPrediction(answer, totalBirths, month, lastThree):
+    test = [int(i+lastThree) for i in answer]
     arr = []
     for y in test:
         # So apparently (correct me if I am wrong but this gets me the answer) the positions 3 onwards
         # provides information of your birth as the ith baby of the year.
-        # Given the number of births of the year, we divide it by the month, to obtain your expected
-        # i position of birth, we then multiply y by an arbitrary number 1150 and calculate the differences.
-        # The arbitrary number that was used before was 1000 but after some trial and error it seems like
-        # 1150 gives the most accurate results. My understanding is that assuming SXX01234A, the individual
-        # is approximately the 1234th child born in that year. By multiplying y with a value larger than 1000,
-        # we account for positions 5, 6 and 7. Which gives a better approximation when finding argmin. 
-        difference = abs(y * 1150 - totalBirths * (month / 12))
+        # Given the number of births of the year, we divide it by the month corrected to the middle of the month,
+        # to obtain your expected i position of birth, we then calculate the differences.
+        # for example, individual SXX01234A is approximately the 1234th child born in that year.
+        difference = abs(y - totalBirths * ((month-0.5)/ 12))
         arr.append(difference)
-    # We obtain the argmin which is the smallest difference between y*1150 and the expected number of babies till the
+    # We obtain the argmin which is the smallest difference between y and the expected number of babies till the
     # month of the year
     index = np.argmin(arr)
     pred = answer[index]
