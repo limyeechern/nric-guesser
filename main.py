@@ -84,7 +84,7 @@ def predictNric(nric, year, month):
         if (prev + 11) > 100:
             break
         answer.append(str(prev + 11))
-    # I only have 2 chance to guess your NRIC so I only created a list of 2 possible answers.
+    # I only have 2 chances to guess your NRIC so I only created a list of 2 possible answers.
     display = [[], []]
     totalBirths = yearDict[year]
     for i in range(2):
